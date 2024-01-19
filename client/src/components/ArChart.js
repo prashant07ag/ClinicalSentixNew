@@ -65,10 +65,9 @@ const chartdata2 = [
   },
 ];
 
-const AreaChartInteractiveExample = ({timeline}) => {
-  // const [value, setValue] = React.useState(null);
+const AreaChartInteractiveExample = ({ timeline, setDate }) => {
   if (!timeline) timeline = chartdata2;
-  
+
   return (
     <>
       <Card>
@@ -80,11 +79,10 @@ const AreaChartInteractiveExample = ({timeline}) => {
           categories={["tweetcount"]}
           colors={["indigo"]}
           yAxisWidth={30}
-          // onValueChange={(v) => setValue(v)}
+          onValueChange={(v) => setDate(v.date)}
           connectNulls={true}
         />
       </Card>
-      {/* <pre>{JSON.stringify(value.categories)}</pre> */}
     </>
   );
 };

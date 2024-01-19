@@ -58,13 +58,34 @@ export default function Dashboard() {
   const { drugname } = useParams();
   //👇🏻 the required states
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState([]);
+  const [tweetData, setTweetData] = useState([]);
   const [error, setError] = useState(false);
+  const [date, setDate]= useState('2000-1-1');
+
+  function stringToDate(_date,_format,_delimiter)
+  {
+    var formatLowerCase=_format.toLowerCase();
+    var formatItems=formatLowerCase.split(_delimiter);
+    var dateItems=_date.split(_delimiter);
+    var monthIndex=formatItems.indexOf("mm");
+    var dayIndex=formatItems.indexOf("dd");
+    var yearIndex=formatItems.indexOf("yyyy");
+    var month=parseInt(dateItems[monthIndex]);
+    month-=1;
+    var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+    return formatedDate;
+  }
+
 
   //👇🏻 fetch the user details on page load
   useEffect(() => {
-    fetchData(drugname, setUserData, setError, setLoading);
+    fetchData(drugname, setTweetData, setError, setLoading);
   }, [drugname]);
+
+  useEffect(()=>{
+    const tweetsFromDate=calculateTweetsByTimeframe(tweetData.tweets, stringToDate(date, "yyyy-mm-dd", '-'));
+    console.log(tweetsFromDate);
+  }, [date]);
 
   // useEffect(() => {
   //   // fetch the repos if there is no error
@@ -76,13 +97,27 @@ export default function Dashboard() {
   //   authenticate();
   // }, [username, error]);
   
-  if (loading || !userData) {
+  if (loading || !tweetData) {
     return <div className="loading">Loading...please wait</div>;
   }
   if (error) {
     return navigate("/error");
   }
 
+  function calculateTweetsByTimeframe(tweets, start) {
+    const currentDate = new Date();
+    const startDate= !!start ? start: new Date();
+
+    tweets = tweets || [];
+    console.log(startDate, currentDate);
+    const filteredTweets = tweets.filter((tweet) => {
+      const tweetDate = new Date(tweet.date);
+      return tweetDate >= startDate && tweetDate <= currentDate;
+    });
+    const totalTweets = filteredTweets.length;
+    return filteredTweets ;
+  }
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
@@ -110,7 +145,7 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               {/* Area Chart (Time series)*/}
               <Grid item xs={12} md={8} lg={9}>
-                <AreaChartInteractiveExample timeline={userData.timeline} />
+                <AreaChartInteractiveExample timeline={tweetData.timeline} setDate={setDate} />
               </Grid>
 
               {/* Pie Chart (Sentiment) */}
@@ -122,13 +157,13 @@ export default function Dashboard() {
                     data={[
                       {
                         lang: "Positive",
-                        tweets: userData.totalPositiveTweets,
+                        tweets: tweetData.totalPositiveTweets,
                       },
                       {
                         lang: "Negative",
-                        tweets: userData.totalNegativeTweets,
+                        tweets: tweetData.totalNegativeTweets,
                       },
-                      { lang: "Neutral", tweets: userData.totalNeutralTweets },
+                      { lang: "Neutral", tweets: tweetData.totalNeutralTweets },
                     ]}
                     category="tweets"
                     index="lang"
@@ -141,7 +176,7 @@ export default function Dashboard() {
 
               {/* Bar Chart (Named Entity count) */}
               <Grid item xs={12} md={12} lg={12}>
-                <BarchartComp namedData={userData.topNamedEntities } />
+                <BarchartComp namedData={tweetData.topNamedEntities } />
               </Grid>  
 
               <Grid item xs={12} md={4} lg={3}>
