@@ -272,3 +272,73 @@ footer {
     flex-direction: column;
   }
 }
+
+.sidebar {
+  width: 0;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #21325e;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  z-index: 1;
+}
+
+.sidebar.open {
+  width: 350px;
+}
+
+
+.sidebar .content {
+  padding: 16px;
+}
+
+.tweet {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 13px;
+  width: 100%;
+}
+
+/* .tweet {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  width: 300px;
+} */
+
+.tweet p {
+  margin: 0;
+}
+.tweet {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  width: 300px;
+  /* Adjust the width as needed */
+}
+
+.tweet-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.date {
+  color: #777;
+}
+
+.message {
+  margin-bottom: 8px;
+}
+
+.tweet-footer {
+  color: #777;
+}

@@ -65,7 +65,7 @@ const chartdata2 = [
   },
 ];
 
-const AreaChartInteractiveExample = ({ timeline, setDate }) => {
+const AreaChartInteractiveExample = ({ timeline, setDate, setOpen }) => {
   if (!timeline) timeline = chartdata2;
 
   return (
@@ -79,8 +79,8 @@ const AreaChartInteractiveExample = ({ timeline, setDate }) => {
           categories={["tweetcount"]}
           colors={["indigo"]}
           yAxisWidth={30}
-          onValueChange={(v) => setDate(v.date)}
-          connectNulls={true}
+          onValueChange={(v) => { setDate(v?.date); setOpen(true)}}
+
         />
       </Card>
     </>
