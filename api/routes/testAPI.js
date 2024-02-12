@@ -1,12 +1,30 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const data = JSON.stringify({
   totalTweets: 137,
   totalPositiveTweets: 117,
   totalNegativeTweets: 20,
   totalNeutralTweets: 0,
-  topNamedEntities: [{ name: "Bentracimab", "count": 137, }, { name: "Brilinta", "count": 137,}, { name: "Clinical Trial", "count": 62, }, { name: "Regulatory Process", "count": 26, }, { name: "FDA", "count": 15, }, { name: "Research Organization", "count": 14, }, { name: "Regulatory Body", "count": 9, },],
-  timeline: [{ date: "2023-05-15" , "tweetcount": 15}, {date: "2023-06-02", "tweetcount": 12}, {date: "2023-07-12", "tweetcount": 20}, {date: "2023-08-05", "tweetcount": 10}, {date: "2023-09-21", "tweetcount": 18}, {date: "2023-10-08", "tweetcount": 14}, {date: "2023-11-17", "tweetcount": 16}, {date: "2023-12-04", tweetcount: 22}, {date: "2024-01-12", "tweetcount": 19 }],
+  topNamedEntities: [
+    { name: "Bentracimab", count: 137 },
+    { name: "Brilinta", count: 137 },
+    { name: "Clinical Trial", count: 62 },
+    { name: "Regulatory Process", count: 26 },
+    { name: "FDA", count: 15 },
+    { name: "Research Organization", count: 14 },
+    { name: "Regulatory Body", count: 9 },
+  ],
+  timeline: [
+    { date: "2023-05-15", tweetcount: 15 },
+    { date: "2023-06-02", tweetcount: 12 },
+    { date: "2023-07-12", tweetcount: 20 },
+    { date: "2023-08-05", tweetcount: 10 },
+    { date: "2023-09-21", tweetcount: 18 },
+    { date: "2023-10-08", tweetcount: 14 },
+    { date: "2023-11-17", tweetcount: 16 },
+    { date: "2023-12-04", tweetcount: 22 },
+    { date: "2024-01-12", tweetcount: 19 },
+  ],
 
   tweets: [
     {
@@ -120,23 +138,21 @@ const data = JSON.stringify({
   ],
 });
 
-router.get('/', function (req, res) {
-    res.send('API is working properly');
+router.get("/", function (req, res) {
+  res.send("API is working properly");
 });
 
-router.get('/:drugname', function (req, res) {
-    try {
-        // Generate sample data for AreaChart
-        const tweetsData = JSON.parse(data);
-        // Send the data in JSON format
-        res.json(tweetsData);
-    } catch (error) {
-        // Handle any errors that occur
-        console.error('Error generating chart data:', error);
-        res.status(500).json({ error: 'Failed to generate chart data' });
-    }
+router.get("/:drugname", function (req, res) {
+  try {
+    // Generate sample data for AreaChart
+    const tweetsData = JSON.parse(data);
+    // Send the data in JSON format
+    res.json(tweetsData);
+  } catch (error) {
+    // Handle any errors that occur
+    console.error("Error generating chart data:", error);
+    res.status(500).json({ error: "Failed to generate chart data" });
+  }
 });
-
-
 
 module.exports = router;
