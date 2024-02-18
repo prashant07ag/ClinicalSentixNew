@@ -1,15 +1,38 @@
+import { useState, useEffect } from 'react';
 import { Card, Text, Metric, Flex, ProgressBar } from "@tremor/react";
 
-const DefCard = () => (
-  <Card className="max-w-xs mx-auto">
-    <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
-    <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
-    </Flex>
-    <ProgressBar value={32} className="mt-2" />
-  </Card>
-);
+const DefCard = () => {
+  const [salesData, setSalesData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('api_endpoint');
+        const data = await response.json();
+        setSalesData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <Card className="max-w-xs mx-auto">
+      {salesData && (
+        <>
+          <Text>Sales</Text>
+          <Metric>$ {salesData.salesAmount}</Metric>
+          <Flex className="mt-4">
+            <Text>{((salesData.salesAmount / salesData.annualTarget) * 100).toFixed(2)}% of annual target</Text>
+            <Text>$ {salesData.annualTarget}</Text>
+          </Flex>
+          <ProgressBar value={(salesData.salesAmount / salesData.annualTarget) * 100} className="mt-2" />
+        </>
+      )}
+    </Card>
+  );
+};
 
 export default DefCard;
