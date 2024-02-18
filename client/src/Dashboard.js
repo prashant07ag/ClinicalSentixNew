@@ -61,6 +61,7 @@ export default function Dashboard() {
     fetchData(drugname, setTweetData, setError, setLoading);
     console.log("fetching data");
   }, [drugname]);
+  
   const tweetDataByDate = useCallback(
     (date) => {
       const tweets = calculateTweetsByTimeframe(tweetData.tweets, date);

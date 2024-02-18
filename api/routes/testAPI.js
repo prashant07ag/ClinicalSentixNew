@@ -16,6 +16,7 @@ router.get("/:drugname", async function (req, res) {
     const db = client.db();
     const collection = db.collection('drugs_review');
     const searchResults = await collection.find({ drugName: drugname }).toArray();
+    console.log(collection)
     await client.close();
     res.status(200).json(searchResults);
   } catch (error) {
